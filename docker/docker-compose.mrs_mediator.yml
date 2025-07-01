@@ -1,0 +1,26 @@
+services:
+  mrs_mediator:
+    build: 
+      context: ../
+      dockerfile: ./Dockerfile
+    container_name: mrsmediator
+    ports:
+      - "7050:7050"
+    environment:
+      - "OPENHIM_USERNAME=${OPENHIM_USERNAME:-interop@openhim.org}"
+      - "OPENHIM_PASSWORD=${OPENHIM_PASSWORD:-interop-password}"
+      - "OPENHIM_API_URL=${OPENHIM_API_URL:-https://openhim-core:8080}"
+      - "PORT=${PORT:-7050}"
+      - "FHIR_URL=${FHIR_URL:-http://openhim-core:5001/fhir}"
+      - "FHIR_USERNAME=${FHIR_USERNAME:-interop-client}"
+      - "FHIR_PASSWORD=${FHIR_PASSWORD:-interop-password}"
+
+    restart: 'unless-stopped'
+    networks:
+      - cht-net
+
+
+networks:
+  cht-net:
+    name: ${CHT_NETWORK:-cht-net}
+      
